@@ -5,6 +5,8 @@ This repository collects code for [Quantitative Economics](http://quant-econ.net
 
 We recommend you start by visiting the [lecture series main page](http://quant-econ.net), which provides detailed information on working with this code repository.
 
+[![Coverage Status](https://img.shields.io/coveralls/spencerlyon2/quant-econ.svg)](https://coveralls.io/r/spencerlyon2/quant-econ)
+
 ### Downloading the Repository
 
 Either
