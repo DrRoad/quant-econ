@@ -14,7 +14,7 @@ branches:
 # (Found this on https://gist.github.com/dan-blanchard/7045057)
 # Should speed up testing
 before_install:
-  - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then wget http://repo.continuum.io/miniconda/Miniconda-3.3.0-Linux-x86_64.sh -O miniconda.sh; else wget http://repo.continuum.io/miniconda/Miniconda3-3.3.0-Linux-x86_64.sh -O miniconda.sh; fi
+  - wget http://repo.continuum.io/miniconda/Miniconda-2.2.2-Linux-x86_64.sh -O miniconda.sh
   - chmod +x miniconda.sh
   - ./miniconda.sh -b
   - export PATH=/home/travis/anaconda/bin:$PATH
@@ -30,9 +30,9 @@ install:
   - python setup.py install
 
 # Run test
-script:
-  - nosetests --with-cov --cov quantecon --cov-config .coveragerc --logging-level=INFO
+# script:
+#   - nosetests --with-cov --cov quantecon --cov-config .coveragerc --logging-level=INFO
 
 # Calculate coverage
-after_success:
-  - coveralls --config_file .coveragerc
+# after_success:
+#   - coveralls --config_file .coveragerc
