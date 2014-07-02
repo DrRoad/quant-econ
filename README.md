@@ -1,6 +1,7 @@
 
 ## Quantitative Economics
 
+[![Build Status](https://travis-ci.org/spencerlyon2/quant-econ.svg?branch=master)](https://travis-ci.org/spencerlyon2/quant-econ)
 [![Coverage Status](https://coveralls.io/repos/spencerlyon2/quant-econ/badge.png)](https://coveralls.io/r/spencerlyon2/quant-econ)
 
 This repository collects code for [Quantitative Economics](http://quant-econ.net),  an on-line course on quantitative economic modeling authored by [Thomas J. Sargent](https://files.nyu.edu/ts43/public/) and [John Stachurski](http://johnstachurski.net).
