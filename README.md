@@ -1,9 +1,12 @@
 
-## Quantitative Economics 
+## Quantitative Economics
+
+[![Coverage Status](https://coveralls.io/repos/spencerlyon2/quant-econ/badge.png)](https://coveralls.io/r/spencerlyon2/quant-econ)
 
 This repository collects code for [Quantitative Economics](http://quant-econ.net),  an on-line course on quantitative economic modeling authored by [Thomas J. Sargent](https://files.nyu.edu/ts43/public/) and [John Stachurski](http://johnstachurski.net).
 
 We recommend you start by visiting the [lecture series main page](http://quant-econ.net), which provides detailed information on working with this code repository.
+
 
 ### Downloading the Repository
 
@@ -19,7 +22,7 @@ You can browse all the files in the repository directly (without downloading) by
 
 ### About Git / GitHub
 
-This code repository is hosted by [GitHub](http://github.com).  The primary function of GitHub is to host open source code repositories in a manner that facilitates sharing and collaboration.  
+This code repository is hosted by [GitHub](http://github.com).  The primary function of GitHub is to host open source code repositories in a manner that facilitates sharing and collaboration.
 
 If you wand to learn a bit more about Git and GitHub, you'll find it's an excellent investment. A good place to start is the [GitHub help page](https://help.github.com/).
 
