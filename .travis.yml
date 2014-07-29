@@ -25,7 +25,7 @@ install:
   - python setup.py install
 
 script:
-  - nosetests --with-coverage --cover-package=quant-econ --cov-config .coveragerc --logging-level=INFO
+  - nosetests --with-coverage --cover-package=quant-econ
 
 after_success:
-  - coveralls --config_file .coveragerc
+  - coveralls
