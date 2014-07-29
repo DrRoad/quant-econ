@@ -1,3 +1,4 @@
+# Thank you for the writeup given by dan-blanchard at https://gist.github.com/dan-blanchard/7045057
 language: python
 python:
   - 2.7
@@ -19,12 +20,12 @@ before_install:
   - sudo rm -rf /dev/shm
   - sudo ln -s /run/shm /dev/shm
 install:
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION ipython numpy==1.8 scipy matplotlib nose pandas pip
+  - conda install --yes python=$TRAVIS_PYTHON_VERSION ipython numpy scipy matplotlib nose pandas pip
   - conda install --yes -c dan_blanchard python-coveralls nose-cov
   - python setup.py install
 
 script:
-  - nosetests --with-cov --cov quant-econ --cov-config .coveragerc --logging-level=INFO
+  - nosetests --with-coverage --cover-package=quant-econ --cov-config .coveragerc --logging-level=INFO
 
 after_success:
   - coveralls --config_file .coveragerc
