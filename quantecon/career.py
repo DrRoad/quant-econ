@@ -1,8 +1,19 @@
 """
 Filename: career.py
-Authors: Thomas Sargent, John Stachurski 
 
-A collection of functions to solve the career / job choice model of Neal.
+Authors: Thomas Sargent, John Stachurski
+
+A collection of functions to solve the career / job choice model due to
+Derek Neal.
+
+References
+----------
+
+http://quant-econ.net/career.html
+
+..  [Neal1999] Neal, D. (1999). The Complexity of Job Mobility among
+    Young Men, Journal of Labor Economics, 17(2), 237-261.
+
 """
 
 import numpy as np
@@ -10,9 +21,31 @@ from scipy.special import binom, beta
 
 
 def gen_probs(n, a, b):
-    """
-    Generate and return the vector of probabilities for the Beta-binomial 
+    r"""
+    Generate the vector of probabilities for the Beta-binomial
     (n, a, b) distribution.
+
+    The Beta-binomial distribution takes the form
+
+    .. math::
+        p(k \,|\, n, a, b) =
+        {n \choose k} \frac{B(k + a, n - k + b)}{B(a, b)},
+        \qquad k = 0, \ldots, n
+
+    Parameters
+    ----------
+    n : scalar(int)
+        First parameter to the Beta-binomial distribution
+    a : scalar(float)
+        Second parameter to the Beta-binomial distribution
+    b : scalar(float)
+        Third parameter to the Beta-binomial distribution
+
+    Returns
+    -------
+    probs: array_like(float)
+        Vector of probabilities over k
+
     """
     probs = np.zeros(n+1)
     for k in range(n+1):
@@ -21,8 +54,53 @@ def gen_probs(n, a, b):
 
 
 class CareerWorkerProblem:
+    """
+    An instance of the class is an object with data on a particular
+    problem of this type, including probabilites, discount factor and
+    sample space for the variables.
 
-    def __init__(self, B=5.0, beta=0.95, N=50, F_a=1, F_b=1, G_a=1, G_b=1):
+    Parameters
+    ----------
+    beta : scalar(float), optional(default=5.0)
+        Discount factor
+    B : scalar(float), optional(default=0.95)
+        Upper bound of for both epsilon and theta
+    N : scalar(int), optional(default=50)
+        Number of possible realizations for both epsilon and theta
+    F_a : scalar(int or float), optional(default=1)
+        Parameter `a` from the career distribution
+    F_b : scalar(int or float), optional(default=1)
+        Parameter `b` from the career distribution
+    G_a : scalar(int or float), optional(default=1)
+        Parameter `a` from the job distribution
+    G_b : scalar(int or float), optional(default=1)
+        Parameter `b` from the job distribution
+
+    Attributes
+    ----------
+    beta : scalar(float)
+        Discount factor
+    B : scalar(float)
+        Upper bound of for both epsilon and theta
+    N : scalar(int)
+        Number of possible realizations for both epsilon and theta
+    theta : array_like(float, ndim=1)
+        A grid of values from 0 to B
+    epsilon : array_like(float, ndim=1)
+        A grid of values from 0 to B
+    F_probs : array_like(float, ndim=1)
+        The probabilities of different values for F
+    G_probs : array_like(float, ndim=1)
+        The probabilities of different values for G
+    F_mean : scalar(float)
+        The mean of the distribution for F
+    G_mean : scalar(float)
+        The mean of the distribution for G
+
+    """
+
+    def __init__(self, B=5.0, beta=0.95, N=50, F_a=1, F_b=1, G_a=1,
+                 G_b=1):
         self.beta, self.N, self.B = beta, N, B
         self.theta = np.linspace(0, B, N)     # set of theta values
         self.epsilon = np.linspace(0, B, N)   # set of epsilon values
@@ -33,15 +111,19 @@ class CareerWorkerProblem:
 
     def bellman(self, v):
         """
-        The Bellman operator for the career / job choice model of Neal.  
-        
-            * v is a 2D NumPy array representing the value function
-            
-        The array v should be interpreted as 
-        
-            v[i, j] = v(theta_i, epsilon_j).  
+        The Bellman operator for the career / job choice model of Neal.
 
-        Returns updated value function Tv as an array of shape v.shape
+        Parameters
+        ----------
+        v : array_like(float)
+            A 2D NumPy array representing the value function
+            Interpretation: :math:`v[i, j] = v(\theta_i, \epsilon_j)`
+
+        Returns
+        -------
+        new_v : array_like(float)
+            The updated value function Tv as an array of shape v.shape
+
         """
         new_v = np.empty(v.shape)
         for i in range(self.N):
@@ -56,12 +138,24 @@ class CareerWorkerProblem:
 
     def get_greedy(self, v):
         """
-        Compute optimal actions taking v as the value function.  Parameters 
-        are the same as for bellman().  Returns a 2D NumPy array "policy", 
-        where policy[i, j] is the optimal action at (theta_i, epsilon_j).  
+        Compute optimal actions taking v as the value function.
 
-        The optimal action is represented as an integer in the set 1, 2, 3, 
-        where 1 = 'stay put', 2 = 'new job' and 3 = 'new life'
+        Parameters
+        ----------
+        v : array_like(float)
+            A 2D NumPy array representing the value function
+            Interpretation: :math:`v[i, j] = v(\theta_i, \epsilon_j)`
+
+        Returns
+        -------
+        policy : array_like(float)
+            A 2D NumPy array, where policy[i, j] is the optimal action
+            at :math:`(\theta_i, \epsilon_j)`.
+
+            The optimal action is represented as an integer in the set
+            1, 2, 3, where 1 = 'stay put', 2 = 'new job' and 3 = 'new
+            life'
+
         """
         policy = np.empty(v.shape, dtype=int)
         for i in range(self.N):
@@ -72,10 +166,11 @@ class CareerWorkerProblem:
                 v3 = self.G_mean + self.F_mean + self.beta * \
                         np.dot(self.F_probs, np.dot(v, self.G_probs))
                 if v1 > max(v2, v3):
-                    action = 1  
+                    action = 1
                 elif v2 > max(v1, v3):
                     action = 2
                 else:
                     action = 3
                 policy[i, j] = action
+
         return policy
