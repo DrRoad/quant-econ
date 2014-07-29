@@ -21,7 +21,8 @@ before_install:
   - sudo ln -s /run/shm /dev/shm
 install:
   - conda install --yes python=$TRAVIS_PYTHON_VERSION ipython numpy scipy matplotlib nose pandas pip
-  - conda install --yes -c dan_blanchard python-coveralls nose-cov
+  - pip install coveralls coverage
+  # - conda install --yes -c dan_blanchard python-coveralls nose-cov
   - python setup.py install
 
 script:
