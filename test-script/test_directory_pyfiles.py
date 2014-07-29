@@ -8,9 +8,9 @@
 '''
 
 
-import glob
-files = glob.glob("*.py")
-for fl in files:
-    print "Testing File: %s" % fl
-    %run $fl
-    print "------------ END (%s) -----------------" % fl
+# import glob
+# files = glob.glob("*.py")
+# for fl in files:
+#     print "Testing File: %s" % fl
+#     %run $fl
+#     print "------------ END (%s) -----------------" % fl
